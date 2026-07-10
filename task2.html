@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inam Ullah Khan | Bento Grid Portfolio</title>
+    <style>
+        /* =========================================================================
+           1. CORE ARCHITECTURE, VARIABLES & RESET
+           ========================================================================= */
+        :root {
+            --bg-main: radial-gradient(circle at center, #16161a, #0b0b0d);
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --border-premium: 1px solid rgba(255, 255, 255, 0.07);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-indigo: #6366f1;
+            --accent-green: #10b981;
+            --radius-card: 12px; /* Explicit requirement standard */
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* =========================================================================
+           2. DESKTOP BENTO GRID ENGINE (Layout Structure Model A)
+           ========================================================================= */
+        .bento-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3-column dashboard grid template */
+            gap: 16px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Base Card Component Styling */
+        .card {
+            background: var(--bg-card);
+            border: var(--border-premium);
+            border-radius: var(--radius-card); /* Mandatory 12px rounding */
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Card Elements Typography */
+        .card h2 { font-size: 1.6rem; font-weight: 700; color: var(--text-primary); }
+        .card h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; letter-spacing: 0.5px; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+
+        /* =========================================================================
+           3. GEOMETRIC ASSET SPANNING RULES
+           ========================================================================= */
+
+        /* Card 1: Main Bio Profile Info -> Spans 2 Column Blocks */
+        .profile-block {
+            grid-column: span 2;
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.07), transparent);
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: #2e3440;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            border: 2px solid #0b0b0d;
+        }
+
+        .profile-details .title {
+            color: var(--accent-indigo);
+            font-weight: 500;
+            margin: 4px 0 8px 0;
+        }
+
+        /* Card 2: Quick Links -> Takes 1 Column */
+        .links-block {
+            grid-column: span 1;
+        }
+
+        .links-vector {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .links-vector a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border-premium);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .links-vector a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-indigo);
+        }
+
+        /* Card 3: Tech Skills -> Takes 1 Column */
+        .skills-block {
+            grid-column: span 1;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.04);
+            border: var(--border-premium);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Card 4: My GitHub Projects Info -> Spans 2 Column Blocks */
+        .projects-block {
+            grid-column: span 2;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .project-item h4 {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        /* Card 5: Social Hub Footer Matrix -> Spans Across All 3 Columns */
+        .social-block {
+            grid-column: span 3;
+        }
+
+        .social-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-github { background: #24292e; color: #fff; }
+        .btn-linkedin { background: #0077b5; color: #fff; }
+        .btn-share { background: #ffffff; color: #0b0b0d; }
+
+        .social-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================================
+           4. RESPONSIVE OVERRIDES ENGINE (Layout Structure Model B)
+           ========================================================================= */
+        @media (max-width: 600px) { /* Explicit 600px mobile breakpoint parameter */
+            body {
+                padding: 20px 12px;
+            }
+
+            .bento-container {
+                grid-template-columns: 1fr; /* Forces transition into single vertical column */
+                gap: 12px;
+            }
+
+            /* Resets structural cell spans completely to keep columns clean on mobile viewports */
+            .card,
+            .profile-block,
+            .links-block,
+            .skills-block,
+            .projects-block,
+            .social-block {
+                grid-column: span 1 !important;
+            }
+
+            .profile-block {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .social-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="bento-container">
+        
+        <section class="card profile-block">
+            <div class="avatar-wrapper">
+                <div class="avatar"></div>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="profile-details">
+                <h2>Inam Ullah Khan</h2>
+                <p class="title">Frontend Engineering Intern</p>
+                <p class="bio">Building accessible, responsive, and pixel-perfect web interfaces at NovaSol.</p>
+            </section>
+
+        <section class="card links-block">
+            <h3>Quick Links</h3>
+            <nav class="links-vector">
+                <a href="My-CV.pdf" target="_blank" rel="noopener">📄 View Resume</a>
+                <a href="https://www.linkedin.com/in/inam-ullah-khan-127292378" target="_blank" rel="noopener">☕ Connect 1:1</a>
+            </nav>
+        </section>
+
+        <section class="card skills-block">
+            <h3>Tech Skills</h3>
+            <div class="tag-cloud">
+                <span class="tag">HTML5</span>
+                <span class="tag">CSS Grid</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Responsive Design</span>
+            </div>
+        </section>
+
+        <section class="card projects-block">
+            <h3>My GitHub Projects Info</h3>
+            <div class="project-list">
+                <div class="project-item">
+                    <h4>🚀 Modern E-Commerce Platform</h4>
+                    <p>A high-performance storefront featuring advanced layouts.</p>
+                </div>
+                <div class="project-item">
+                    <h4>📦 Next-Gen UI Design Systems</h4>
+                    <p>Semantic, component-driven interfaces built for modern viewports.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="card social-block">
+            <h3>Social Hub Matrix</h3>
+            <div class="social-actions">
+                <a href="https://github.com/malikinam015" target="_blank" rel="noopener" class="social-btn btn-github">GitHub</a>
+                <a href="https://www.linkedin.com/in/inam-ullah-khan-127292378" target="_blank" rel="noopener" class="social-btn btn-linkedin">LinkedIn</a>
+                <button id="shareBtn" class="social-btn btn-share" onclick="navigator.clipboard.writeText(window.location.href); alert('Portfolio link copied to clipboard!');">Share Profile</button>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
